@@ -56,5 +56,47 @@ namespace FinalProject2
                 }
             }
         }
+
+        //the function gets the height and the width of
+        public static string getTheFillingToTheSudoku(int height, int width)
+        {
+            string input = "";
+
+            //convert from int to char what is the biggest number that the sudoku can get
+            char max = (char)(height * width);
+            max += '0';
+            do
+            {
+                char c = Console.ReadKey().KeyChar;
+                if (c < '0' || c > max)
+                {
+                    throw new InvalidExpressionException("the char is not valid");
+                }
+
+                //insert the char into the string
+                input += c;
+
+            } //doing the while the number of cells in the Sudoku, unless it raises the InvalidExpressionException
+            while (input.Length < ((height * width) * (height * width)));
+
+            return input;
+        }
+
+        public static void Main(String[] args)
+        {
+            //getting the size of the Sudoko from the input
+            Console.WriteLine("Please enter the height of one square in the sudoku:");
+            int height = int.Parse(Console.ReadLine());
+            Console.WriteLine("Please enter the width of one square in the sudoku:");
+            int width = int.Parse(Console.ReadLine());
+
+            //getting the string that suppose to be in the Sudoku
+            string fill = getTheFillingToTheSudoku(height, width);
+
+            //create the Sudoku and prints it
+            Sudoku s = new Sudoku(height, width, fill);
+            s.printSudoku();
+        }
+
     }
 }
