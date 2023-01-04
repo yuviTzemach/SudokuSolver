@@ -45,10 +45,16 @@ namespace FinalProject2
             Sudoku s = new Sudoku(height, width, fill);
             s.printSudoku();
 
-            /*need to do the solve function*/
+            //counting the time of solving the sudoku
+            var time = new System.Diagnostics.Stopwatch();
+            time.Start();
+            bool solvedSudoku = s.solve();
+            time.Stop();
+            Console.WriteLine("\n");
+            Console.WriteLine($"Time: {time.Elapsed.TotalMilliseconds} ms");
 
             //if the sudoku cannot be solved, it throws the SudokuIsNotValidException
-            /*if(s.solve() == false)
+            if (solvedSudoku == false)
             {
                 throw new SudokuIsNotValidException("The sudoku can not be solved");
             }
@@ -59,11 +65,11 @@ namespace FinalProject2
                 //if the input is 1 (means it came from file), insert the result to new file
                 if (input == 1)
                 {
-                    string txt = @"TextFile1.txt";
+                    string txt = Path.Combine(Directory.GetCurrentDirectory(), "\\TextFile1.txt");
                     string output = s.convertSudokuToString();
                     File.WriteAllText(txt, output);
                 }
-            }*/
+            }
         }
     }
 }
