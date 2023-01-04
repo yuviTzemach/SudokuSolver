@@ -10,7 +10,7 @@ namespace FinalProject2
 {
     internal class Sudoku
     {
-        protected char [,] mat;
+        protected char[,] mat;
         protected int height;
         protected int width;
         protected char max;
@@ -20,17 +20,17 @@ namespace FinalProject2
         {
             this.height = height;
             this.width = width;
-            int index = 0;
             max = (char)(height * width);
             max += '0';
+            int index = 0;
 
             //creating a matrix that has 
             mat = new char[height * width, height * width];
 
             //filling the matrix with what the input was
-            for (int i = 0; i< (height * width); i++)
+            for (int i = 0; i < (height * width); i++)
             {
-                for(int j= 0;j < (height * width); j++)
+                for (int j = 0; j < (height * width); j++)
                 {
                     mat[i, j] = fill[index];
                     index++;
@@ -46,18 +46,30 @@ namespace FinalProject2
             {
                 Console.Write("----");
             }
-            for (int i=0; i< this.height * this.width; i++)
+            for (int i = 0; i < this.height * this.width; i++)
             {
                 Console.Write("\n");
                 Console.Write("|");
-                for (int j=0; j< this.height * this.width; j++)
+                for (int j = 0; j < this.height * this.width; j++)
                 {
-                    Console.Write(" " + mat[i, j] + " |");
+                    if (mat[i, j] > '9')
+                    {
+                        int ch = (int)(mat[i, j] - '0');
+                        Console.Write(" " + ch + " |");
+                    }
+                    else
+                    {
+                        Console.Write(" " + mat[i, j] + " |");
+                    }
                 }
+
                 Console.Write("\n");
-                for (int k = 0; k < this.height * this.width; k++)
+                if((i % width) == 1)
                 {
-                    Console.Write("----");
+                    for (int k = 0; k < this.height * this.width; k++)
+                    {
+                        Console.Write("----");
+                    }
                 }
             }
         }
@@ -105,31 +117,29 @@ namespace FinalProject2
         public static string getTheInputFromFile(int height, int width)
         {
             string input = "";
-            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
+            //string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
+            string txt = @"C:\\Users\\yuval\\source\\repos\\SudokuSolverr\\TextFile.txt";
             int sizeSudoku = (height * width) * (height * width);
-            char[] arr= new char[sizeSudoku];
+            char[] arr = new char[sizeSudoku];
 
             //convert from int to char what is the biggest number that the sudoku can get
             char max = (char)(height * width);
             max += '0';
-            if(File.Exists(txt))
+            if (File.Exists(txt))
             {
-                using(StreamReader file = new StreamReader(txt))
+                using (StreamReader file = new StreamReader(txt))
                 {
                     int count = file.ReadBlock(arr, 0, sizeSudoku);
-
                     //if the amount of the chars is bigger, throws EndOfStreamException
                     if (file.EndOfStream == false)
                     {
                         throw new EndOfStreamException("The number of chars that have been scanned is bigger");
                     }
-
                     //if the amount of the chars is smaller, throws EndOfStreamException
                     if (count != sizeSudoku)
                     {
                         throw new EndOfStreamException("The number of chars that have been scanned is smaller");
                     }
-
                     input = new string(arr);
                 }
             }
@@ -138,16 +148,14 @@ namespace FinalProject2
             {
                 throw new FileNotFoundException("There is no file with the name 'TextFile.txt'");
             }
-
             //check validation of the input
-            for(int i=0; i < sizeSudoku; i++)
+            for (int i = 0; i < sizeSudoku; i++)
             {
                 if (input[i] < '0' || input[i] > max)
                 {
                     throw new InvalidExpressionException("the char is not valid");
                 }
             }
-
             return input;
         }
 
@@ -164,6 +172,77 @@ namespace FinalProject2
                 }
             }
             return output;
+        }
+
+        //checking if the sudoku can be solved- if yes, return true, else, false
+        public bool solve()
+        {
+            int heightWidth = (height * width);
+            char max = (char)heightWidth;
+            max += '0';
+            for (int i = 0; i < heightWidth; i++)
+            {
+                for (int j = 0; j < heightWidth; j++)
+                {
+                    //checking if the char in the matrix is 0- if yes, tring to solve the missing cell, else, skip
+                    if (mat[i, j] == '0')
+                    {
+                        //going through all the options and checking their validation
+                        for (char c = '1'; c <= max; c++)
+                        {
+                            if (validation(i, j, c))
+                            {
+                                mat[i, j] = c;
+
+                                //if it can solve the sudoku it, return false
+                                if (solve())
+                                {
+                                    return true;
+                                }
+                                else
+                                    mat[i, j] = '0';
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        //checking the validation of a specific char in a specific place in the sudoku
+        public bool validation(int row, int col, char c)
+        {
+            int maxInt = (int)(max - '0');
+            for (int i = 0; i < maxInt; i++)
+            {
+                //checking in the row if there are no chars like c and if it is not 0
+                if (mat[i, col] != '0' && mat[i, col] == c)
+                {
+                    return false;
+                }
+                //checking in the colmun if there are no chars like c and if it is not 0
+                if (mat[row, i] != '0' && mat[row, i] == c)
+                {
+                    return false;
+                }
+            }
+
+            //checking a one square of the sudoku
+            int startRow = row - row % height;
+            int startCol = col - col % width;
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (mat[(i + startRow), (j + startCol)] == c)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
