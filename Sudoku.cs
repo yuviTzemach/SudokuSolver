@@ -41,9 +41,9 @@ namespace FinalProject2
         public void printSudoku()
         {
             Console.Write("\n");
-            for (int i = 0; i < max; i++)
+            for (int i = 0; i < width*3 + 2; i++)
             {
-                Console.Write("----");
+                Console.Write("-");
             }
             for (int i = 0; i < max; i++)
             {
@@ -57,9 +57,9 @@ namespace FinalProject2
                 Console.Write("\n");
                 if((i % width) == 1)
                 {
-                    for (int k = 0; k < max; k++)
+                    for (int k = 0; k < width*3 + 2; k++)
                     {
-                        Console.Write("----");
+                        Console.Write("-");
                     }
                 }
             }
