@@ -48,7 +48,7 @@ namespace FinalProject2
             //counting the time of solving the sudoku
             var time = new System.Diagnostics.Stopwatch();
             time.Start();
-            bool solvedSudoku = s.solve();
+            bool solvedSudoku = s.solve(0, 0);
             time.Stop();
             Console.WriteLine("\n");
             Console.WriteLine($"Time: {time.Elapsed.TotalMilliseconds} ms");

@@ -10,29 +10,28 @@ namespace FinalProject2
 {
     internal class Sudoku
     {
-        protected char[,] mat;
+        protected int[,] mat;
         protected int height;
         protected int width;
-        protected char max;
+        protected int max;
 
         //constructor of the Sudoku class
         public Sudoku(int height, int width, string fill)
         {
             this.height = height;
             this.width = width;
-            max = (char)(height * width);
-            max += '0';
             int index = 0;
+            this.max = height * width;
 
             //creating a matrix that has 
-            mat = new char[height * width, height * width];
+            mat = new int[max, max];
 
             //filling the matrix with what the input was
             for (int i = 0; i < (height * width); i++)
             {
                 for (int j = 0; j < (height * width); j++)
                 {
-                    mat[i, j] = fill[index];
+                    mat[i, j] = (int)(fill[index] -'0');
                     index++;
                 }
             }
@@ -42,31 +41,23 @@ namespace FinalProject2
         public void printSudoku()
         {
             Console.Write("\n");
-            for (int i = 0; i < this.height * this.width; i++)
+            for (int i = 0; i < max; i++)
             {
                 Console.Write("----");
             }
-            for (int i = 0; i < this.height * this.width; i++)
+            for (int i = 0; i < max; i++)
             {
                 Console.Write("\n");
                 Console.Write("|");
-                for (int j = 0; j < this.height * this.width; j++)
+                for (int j = 0; j < max; j++)
                 {
-                    if (mat[i, j] > '9')
-                    {
-                        int ch = (int)(mat[i, j] - '0');
-                        Console.Write(" " + ch + " |");
-                    }
-                    else
-                    {
-                        Console.Write(" " + mat[i, j] + " |");
-                    }
+                    Console.Write(" " + (mat[i, j]) + " |");
                 }
 
                 Console.Write("\n");
                 if((i % width) == 1)
                 {
-                    for (int k = 0; k < this.height * this.width; k++)
+                    for (int k = 0; k < max; k++)
                     {
                         Console.Write("----");
                     }
@@ -83,7 +74,7 @@ namespace FinalProject2
             string input = "";
 
             //convert from int to char what is the biggest number that the sudoku can get
-            char max = (char)(height * width);
+            int max = (char)(height * width);
             max += '0';
             do
             {
@@ -117,8 +108,7 @@ namespace FinalProject2
         public static string getTheInputFromFile(int height, int width)
         {
             string input = "";
-            //string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
-            string txt = @"C:\\Users\\yuval\\source\\repos\\SudokuSolverr\\TextFile.txt";
+            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
             int sizeSudoku = (height * width) * (height * width);
             char[] arr = new char[sizeSudoku];
 
@@ -168,67 +158,77 @@ namespace FinalProject2
             {
                 for (int j = 0; j < (height * width); j++)
                 {
-                    output += mat[i, j];
+                    char ch = (char)mat[i, j];
+                    ch += '0';
+                    output += ch;
                 }
             }
             return output;
         }
 
         //checking if the sudoku can be solved- if yes, return true, else, false
-        public bool solve()
+        public bool solve(int row, int col)
         {
             int heightWidth = (height * width);
-            char max = (char)heightWidth;
-            max += '0';
-            for (int i = 0; i < heightWidth; i++)
-            {
-                for (int j = 0; j < heightWidth; j++)
-                {
-                    //checking if the char in the matrix is 0- if yes, tring to solve the missing cell, else, skip
-                    if (mat[i, j] == '0')
-                    {
-                        //going through all the options and checking their validation
-                        for (char c = '1'; c <= max; c++)
-                        {
-                            if (validation(i, j, c))
-                            {
-                                mat[i, j] = c;
 
-                                //if it can solve the sudoku it, return false
-                                if (solve())
-                                {
-                                    return true;
-                                }
-                                else
-                                    mat[i, j] = '0';
-                            }
-                        }
-                        return false;
+            //cheking if we got to the end of the sudoku, if yes, return true
+            if(row == heightWidth - 1 && col == heightWidth)
+            {
+                return true;
+            }
+
+            //if we got to the end of the colmun, we are going to the next row
+            if(col == heightWidth)
+            {
+                row++;
+                col = 0;
+            }
+
+            //if the cell is no 0- go to the next cell
+            if (mat[row, col] != 0)
+            {
+                return solve(row, col + 1);
+            }
+
+            //going through all the options and checking their validation
+            for (int option = 1; option <= heightWidth; option++)
+            {
+                if (validation(row, col, option))
+                {
+                    mat[row, col] = option;
+
+                    //if it can solve the sudoku, return true
+                    if (solve(row, col + 1))
+                    {
+                        return true;
                     }
                 }
+                mat[row, col] = 0;
             }
-            return true;
+            return false;
         }
 
-        //checking the validation of a specific char in a specific place in the sudoku
-        public bool validation(int row, int col, char c)
+        //checking the validation of a specific integer in a specific cell in the sudoku
+        public bool validation(int row, int col, int num)
         {
-            int maxInt = (int)(max - '0');
-            for (int i = 0; i < maxInt; i++)
+            for (int i = 0; i < max; i++)
             {
-                //checking in the row if there are no chars like c and if it is not 0
-                if (mat[i, col] != '0' && mat[i, col] == c)
+                //checking in the row, if there are cells like num, if yes, return false
+                if (mat[row, i] == num)
                 {
                     return false;
                 }
-                //checking in the colmun if there are no chars like c and if it is not 0
-                if (mat[row, i] != '0' && mat[row, i] == c)
+            }
+            for (int i = 0; i < max; i++)
+            {
+                //checking in the colmun, if there are cells like num, if yes, return false
+                if (mat[i, col] == num)
                 {
                     return false;
                 }
             }
 
-            //checking a one square of the sudoku
+            //checking in an one square of the sudoku, if there are cells like num, if yes, return false
             int startRow = row - row % height;
             int startCol = col - col % width;
 
@@ -236,7 +236,7 @@ namespace FinalProject2
             {
                 for (int j = 0; j < width; j++)
                 {
-                    if (mat[(i + startRow), (j + startCol)] == c)
+                    if (mat[(i + startRow), (j + startCol)] == num)
                     {
                         return false;
                     }
