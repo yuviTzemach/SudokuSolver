@@ -20,11 +20,50 @@ namespace FinalProject2
             string fill = "";
 
             //input of the menu
+            int input = inputMenu();
+
+            //get the text that fills the sudoku
+            fill = getTheFilling(input, height, width);
+
+            //create the Sudoku and prints it
+            Sudoku s = new Sudoku(height, width, fill);
+            s.printSudoku();
+
+            //trying to solve the sudoku, if it can, return true, else, return false
+            //also, print the time that takesthe sudoku to be solved
+            bool solvedSudoku = solveSudoku(s);
+
+            //if the sudoku cannot be solved, it throws the SudokuIsNotValidException
+            if (solvedSudoku == false)
+            {
+                throw new SudokuIsNotValidException("The sudoku can not be solved");
+            }
+            //else, print the new sudoku
+            else
+            {
+                s.printSudoku();
+                //if the input is 1 (means it came from file), insert the result to new file
+                if (input == 1)
+                {
+                    writeSudokuToFile(s);
+                }
+            }
+        }
+
+        //the function returns the input of the menu
+        public static int inputMenu()
+        {
             Console.WriteLine("Please choose your input type:");
             Console.WriteLine("1. File Input");
             Console.WriteLine("2. Console Input");
             int input = int.Parse(Console.ReadLine());
+            return input;
+        }
 
+        //the function is getting the filling of the sudoku
+        public static string getTheFilling(int input, int height, int width)
+        {
+            string fill;
             //if the input is 1- get the string from file
             if (input == 1)
             {
@@ -40,36 +79,28 @@ namespace FinalProject2
             {
                 throw new InvalidExpressionException("the input is not valid");
             }
+            return fill;
+        }
 
-            //create the Sudoku and prints it
-            Sudoku s = new Sudoku(height, width, fill);
-            s.printSudoku();
-
-            //counting the time of solving the sudoku
+        //the function is returns true if the sudoku can be solved, and false otherwise, and print the time that
+        //took the function to solve the sudoku
+        public static bool solveSudoku(Sudoku s)
+        {
             var time = new System.Diagnostics.Stopwatch();
             time.Start();
             bool solvedSudoku = s.solve(0, 0);
             time.Stop();
             Console.WriteLine("\n");
             Console.WriteLine($"Time: {time.Elapsed.TotalMilliseconds} ms");
+            return solvedSudoku;
+        }
 
-            //if the sudoku cannot be solved, it throws the SudokuIsNotValidException
-            if (solvedSudoku == false)
-            {
-                throw new SudokuIsNotValidException("The sudoku can not be solved");
-            }
-            //else, print the new sudoku
-            else
-            {
-                s.printSudoku();
-                //if the input is 1 (means it came from file), insert the result to new file
-                if (input == 1)
-                {
-                    string txt = Path.Combine(Directory.GetCurrentDirectory(), "\\TextFile1.txt");
-                    string output = s.convertSudokuToString();
-                    File.WriteAllText(txt, output);
-                }
-            }
+        //the function is writing the result of the sudoku into new file
+        public static void writeSudokuToFile(Sudoku s)
+        {
+            string txt = Path.Combine(Directory.GetCurrentDirectory(), "\\TextFile1.txt");
+            string output = s.convertSudokuToString();
+            File.WriteAllText(txt, output);
         }
     }
 }
