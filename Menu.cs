@@ -98,7 +98,7 @@ namespace FinalProject2
         //the function is writing the result of the sudoku into new file
         public static void writeSudokuToFile(Sudoku s)
         {
-            string txt = Path.Combine(Directory.GetCurrentDirectory(), "\\TextFile1.txt");
+            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile1.txt";
             string output = s.convertSudokuToString();
             File.WriteAllText(txt, output);
         }
