@@ -10,10 +10,10 @@ namespace FinalProject2
 {
     internal class Sudoku
     {
-        protected int[,] mat;
-        protected int height;
-        protected int width;
-        protected int max;
+        public int[,] mat;
+        public int height;
+        public int width;
+        public int max;
 
         //constructor of the Sudoku class
         public Sudoku(int height, int width, string fill)
@@ -31,7 +31,7 @@ namespace FinalProject2
             {
                 for (int j = 0; j < (height * width); j++)
                 {
-                    mat[i, j] = (int)(fill[index] -'0');
+                    mat[i, j] = (int)(fill[index] - '0');
                     index++;
                 }
             }
@@ -41,7 +41,8 @@ namespace FinalProject2
         public void printSudoku()
         {
             Console.Write("\n");
-            for (int i = 0; i < width*3 + 2; i++)
+            //amount of '-' that getting into one row 
+            for (int i = 0; i < (width * 3 + 2) * height; i++)
             {
                 Console.Write("-");
             }
@@ -51,102 +52,29 @@ namespace FinalProject2
                 Console.Write("|");
                 for (int j = 0; j < max; j++)
                 {
-                    Console.Write(" " + (mat[i, j]) + " |");
+                    if (mat[i, j] < 10)
+                    {
+                        Console.Write(" " + (mat[i, j]) + " ");
+                    }
+                    else
+                    {
+                        Console.Write(" " + (mat[i, j]));
+                    }
+                    if ((j % width) == (width - 1))
+                    {
+                        Console.Write(" |");
+                    }
                 }
-
                 Console.Write("\n");
-                if((i % width) == 1)
+                if ((i % height) == (height - 1))
                 {
-                    for (int k = 0; k < width*3 + 2; k++)
+                    for (int k = 0; k < (width * 3 + 2) * height; k++)
                     {
                         Console.Write("-");
                     }
                 }
             }
-        }
-
-        //the function gets the height and the width of a square in the sudoku
-        //the function scan the exact number of digits the sudoku should get, unless it gets
-        //an invalid char- every char thats not between '0' and the
-        //max char (height * width). if so, it throws InvalidExpressionException, else, return the input
-        public static string getTheInputFromConsole(int height, int width)
-        {
-            string input = "";
-
-            //convert from int to char what is the biggest number that the sudoku can get
-            int max = (char)(height * width);
-            max += '0';
-            do
-            {
-                char c = Console.ReadKey().KeyChar;
-                if (c < '0' || c > max)
-                {
-                    throw new InvalidExpressionException("the char is not valid");
-                }
-
-                //insert the char into the string
-                input += c;
-
-            } //doing the while the number of cells in the Sudoku, unless it raises the InvalidExpressionException
-            while (input.Length < ((height * width) * (height * width)));
-
-            //if the last char is not enter, it throws InvalidExpressionException
-            if (Console.ReadKey().Key != ConsoleKey.Enter)
-            {
-                throw new InvalidExpressionException("the string is longer than what it supposed to be");
-            }
-
-            return input;
-        }
-
-        //the function gets the height and the width of a square in the sudoku
-        //the function gets the input of the sudoku from a file
-        //it checks if the file is exists, and if so read the chars inside
-        //it also checks if the the amount of chars it got is bigger, smaller or what it expected
-        //then, it checks the validation of the chars
-        //if is invalid, it throws InvalidExpressionException, else, return the input
-        public static string getTheInputFromFile(int height, int width)
-        {
-            string input = "";
-            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
-            int sizeSudoku = (height * width) * (height * width);
-            char[] arr = new char[sizeSudoku];
-
-            //convert from int to char what is the biggest number that the sudoku can get
-            char max = (char)(height * width);
-            max += '0';
-            if (File.Exists(txt))
-            {
-                using (StreamReader file = new StreamReader(txt))
-                {
-                    int count = file.ReadBlock(arr, 0, sizeSudoku);
-                    //if the amount of the chars is bigger, throws EndOfStreamException
-                    if (file.EndOfStream == false)
-                    {
-                        throw new EndOfStreamException("The number of chars that have been scanned is bigger");
-                    }
-                    //if the amount of the chars is smaller, throws EndOfStreamException
-                    if (count != sizeSudoku)
-                    {
-                        throw new EndOfStreamException("The number of chars that have been scanned is smaller");
-                    }
-                    input = new string(arr);
-                }
-            }
-            //if it didn't fount the file, throws FileNotFoundException
-            else
-            {
-                throw new FileNotFoundException("There is no file with the name 'TextFile.txt'");
-            }
-            //check validation of the input
-            for (int i = 0; i < sizeSudoku; i++)
-            {
-                if (input[i] < '0' || input[i] > max)
-                {
-                    throw new InvalidExpressionException("the char is not valid");
-                }
-            }
-            return input;
+            Console.Write("\n");
         }
 
         //convert the sudoku result to string
@@ -172,13 +100,13 @@ namespace FinalProject2
             int heightWidth = (height * width);
 
             //cheking if we got to the end of the sudoku, if yes, return true
-            if(row == heightWidth - 1 && col == heightWidth)
+            if (row == heightWidth - 1 && col == heightWidth)
             {
                 return true;
             }
 
             //if we got to the end of the colmun, we are going to the next row
-            if(col == heightWidth)
+            if (col == heightWidth)
             {
                 row++;
                 col = 0;
@@ -243,6 +171,7 @@ namespace FinalProject2
                 }
             }
             return true;
+        }
         }
     }
 }
