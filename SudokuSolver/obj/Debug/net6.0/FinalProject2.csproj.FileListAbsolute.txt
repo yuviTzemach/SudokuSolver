@@ -1,0 +1,5 @@
+C:\Users\yuval\source\repos\FinalProject2\SudokuSolver\obj\Debug\net6.0\FinalProject2.csproj.AssemblyReference.cache
+C:\Users\yuval\source\repos\FinalProject2\SudokuSolver\obj\Debug\net6.0\FinalProject2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yuval\source\repos\FinalProject2\SudokuSolver\obj\Debug\net6.0\FinalProject2.AssemblyInfoInputs.cache
+C:\Users\yuval\source\repos\FinalProject2\SudokuSolver\obj\Debug\net6.0\FinalProject2.AssemblyInfo.cs
+C:\Users\yuval\source\repos\FinalProject2\SudokuSolver\obj\Debug\net6.0\FinalProject2.csproj.CoreCompileInputs.cache

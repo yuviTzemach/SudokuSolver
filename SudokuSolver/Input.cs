@@ -121,3 +121,4 @@ namespace SudokuSolver
             File.WriteAllText(txt, output);
         }
     }
+}
