@@ -9,10 +9,10 @@ namespace SudokuSolver
 {
     internal class Input
     {
-        //the function gets the height and the width of a square in the sudoku
-        //the function scan the exact number of digits the sudoku should get, unless it gets
-        //an invalid char- every char thats not between '0' and the
-        //max char (height * width). if so, it throws InvalidExpressionException, else, return the input
+        /* The function gets the height and the width of a square in the sudoku
+        the function scan the exact number of digits the sudoku should get, unless it gets
+        an invalid char- every char thats not between '0' and the
+        max char (height * width). if so, it throws InvalidExpressionException, else, return the input*/
         public static string getTheInputFromConsole(int height, int width)
         {
             string input = "";
@@ -27,7 +27,6 @@ namespace SudokuSolver
                 {
                     throw new InvalidExpressionException("the char is not valid");
                 }
-
                 //insert the char into the string
                 input += c;
 
@@ -39,16 +38,15 @@ namespace SudokuSolver
             {
                 throw new InvalidExpressionException("the string is longer than what it supposed to be");
             }
-
             return input;
         }
 
-        //the function gets the height and the width of a square in the sudoku
-        //the function gets the input of the sudoku from a file
-        //it checks if the file is exists, and if so read the chars inside
-        //it also checks if the the amount of chars it got is bigger, smaller or what it expected
-        //then, it checks the validation of the chars
-        //if is invalid, it throws InvalidExpressionException, else, return the input
+        /* The function gets the height and the width of a square in the sudoku
+        the function gets the input of the sudoku from a file
+        it checks if the file is exists, and if so read the chars inside
+        it also checks if the the amount of chars it got is bigger, smaller or what it expected
+        then, it checks the validation of the chars
+        if is invalid, it throws InvalidExpressionException, else, return the input */
         public static string getTheInputFromFile(int height, int width)
         {
             string input = "";
@@ -100,34 +98,12 @@ namespace SudokuSolver
             //if the input is 1- get the string from file
             if (input == 1)
             {
-                try
-                {
-                    fill = getTheInputFromFile(height, width);
-                }
-                catch (InvalidExpressionException iee)
-                {
-                    Console.WriteLine(iee.Message);
-                }
+                fill = getTheInputFromFile(height, width);
             }
             //if the input is 2- get the string from input
             else if (input == 2)
             {
-                try
-                {
-                    fill = getTheInputFromConsole(height, width);
-                }
-                catch (EndOfStreamException eose)
-                {
-                    Console.WriteLine(eose.Message);
-                }
-                catch (FileNotFoundException fnfe)
-                {
-                    Console.WriteLine(fnfe.Message);
-                }
-                catch (InvalidExpressionException iee)
-                {
-                    Console.WriteLine(iee.Message);
-                }
+                fill = getTheInputFromConsole(height, width);
             }
             //throw an InvalidExpressionException if it is not 1 or 2
             else
