@@ -56,6 +56,7 @@ namespace FinalProject2
                     }
 
                     Console.WriteLine("Please enter your sudoku string:");
+
                     //get the text that fills the sudoku
                     try
                     {
@@ -64,6 +65,17 @@ namespace FinalProject2
                     catch (InvalidExpressionException iee)
                     {
                         Console.WriteLine(iee.Message);
+                        continue;
+                    }
+                    catch (EndOfStreamException eose)
+                    {
+                        Console.WriteLine(eose.Message);
+                        continue;
+                    }
+                    catch (FileNotFoundException fnfe)
+                    {
+                        Console.WriteLine(fnfe.Message);
+                        continue;
                     }
 
                     //create the Sudoku and prints it
@@ -77,7 +89,8 @@ namespace FinalProject2
                     //if the sudoku cannot be solved, it throws the SudokuIsNotValidException
                     if (solvedSudoku == false)
                     {
-                        throw new SudokuIsNotValidException("The sudoku can not be solved");
+                        Console.WriteLine("The sudoku can not be solved");
+                        continue;
                     }
                     //else, print the new sudoku
                     else
@@ -96,7 +109,7 @@ namespace FinalProject2
                     Console.WriteLine("Goodbye :)");
                     return;
                 }
-                //if it is not 1 or 2- it's print that the input is not valid, and it requires the user to try again
+                //if it is not 1 or 2- it's print that the input is not valid, and it requires the user to try again 
                 else
                 {
                     Console.WriteLine("the input is not valid, please try again");
@@ -127,10 +140,11 @@ namespace FinalProject2
         {
             var time = new System.Diagnostics.Stopwatch();
             time.Start();
-            bool solvedSudoku = s.solve(0, 0);
+            DancingLinksSolver dlx = new DancingLinksSolver(s);
+            bool solvedSudoku = dlx.SolveSudoku();
             time.Stop();
             Console.WriteLine("\n");
-            Console.WriteLine($"Time: {time.Elapsed.TotalMilliseconds} ms");
+            Console.WriteLine($"The time that took the algorithem to solve the sudoku is {time.Elapsed.TotalMilliseconds} ms");
             return solvedSudoku;
         }
     }
