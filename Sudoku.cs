@@ -23,13 +23,13 @@ namespace FinalProject2
             int index = 0;
             this.max = height * width;
 
-            //creating a matrix that has 
+            //creating a matrix  
             mat = new int[max, max];
 
             //filling the matrix with what the input was
-            for (int i = 0; i < (height * width); i++)
+            for (int i = 0; i < max; i++)
             {
-                for (int j = 0; j < (height * width); j++)
+                for (int j = 0; j < max; j++)
                 {
                     mat[i, j] = (int)(fill[index] - '0');
                     index++;
@@ -37,7 +37,7 @@ namespace FinalProject2
             }
         }
 
-        //the function is printing the Sudoku
+        //printing the Sudoku
         public void printSudoku()
         {
             Console.Write("\n");
@@ -82,9 +82,9 @@ namespace FinalProject2
         {
             string output = "";
 
-            for (int i = 0; i < (height * width); i++)
+            for (int i = 0; i < max; i++)
             {
-                for (int j = 0; j < (height * width); j++)
+                for (int j = 0; j < max; j++)
                 {
                     char ch = (char)mat[i, j];
                     ch += '0';
@@ -171,7 +171,6 @@ namespace FinalProject2
                 }
             }
             return true;
-        }
         }
     }
 }
