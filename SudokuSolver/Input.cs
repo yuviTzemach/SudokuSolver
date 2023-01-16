@@ -50,7 +50,7 @@ namespace SudokuSolver
         public static string getTheInputFromFile(int height, int width)
         {
             string input = "";
-            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile.txt";
+            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\SudokuSolver\\TextFile.txt";
             int sizeSudoku = (height * width) * (height * width);
             char[] arr = new char[sizeSudoku];
 
@@ -116,7 +116,7 @@ namespace SudokuSolver
         //the function is writing the result of the sudoku into new file
         public static void writeSudokuToFile(Sudoku s)
         {
-            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\TextFile1.txt";
+            string txt = @"C:\\Users\\yuval\\source\\repos\\FinalProject2\\SudokuSolver\\SudokuSolver\\TextFile1.txt";
             string output = s.convertSudokuToString();
             File.WriteAllText(txt, output);
         }
