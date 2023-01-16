@@ -18,9 +18,11 @@ The exact cover problem is represented in this algorithm by a matrix of zeros an
 
 ![image](https://user-images.githubusercontent.com/117098093/212727355-173c2f7c-1231-4b8f-9fa7-1d508143d73d.png)
 
+As the user can see, every zero represents an invalid value for the location and constraint 
+they represent, and every one represents a valid and possible value.
 
-The algorithm represents the matrix of the sudoku, by using doubly-linked circular lists, and each 
-node in the lists contains the following fiedls:
+In the next step, the algorithm represents the matrix of the sudoku, by using doubly-linked 
+circular lists, and each node in the lists contains the following fiedls:
 - Pointer to node above it
 - Pointer to node below it
 - Pointer to node left to it
@@ -37,6 +39,11 @@ This node is just like simple node but have few extra fields:
 ### See an example:
 
 ![image](https://user-images.githubusercontent.com/117098093/212703954-09041585-577b-45fe-abb3-c40cf573f168.png)
+
+
+In the next and the final step, the algorithm will solve the sudoku in the way of the exact cover 
+problem, which means, the algorithm will remove and restore, until it finds the right combination-
+the solution of the sudoku. 
 
 
 ## How To Use The Program
