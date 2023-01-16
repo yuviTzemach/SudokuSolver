@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FinalProject2.SudokuSolver.SudokuSolver.SudokuSolver;
+using System.Data;
 
 namespace FinalProject2.SudokuSolver.SudokuSolverTests
 {
