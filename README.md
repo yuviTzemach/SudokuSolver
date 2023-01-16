@@ -1,9 +1,10 @@
 # Sudoku Solver by Yuval Tzeamach
-My project contains a C sharp sudoku solver, that written in (.NET 6.0).
+My project contains a C# sudoku solver, that written in (.NET 6.0).
 
 This project is based on the algorithm of Algorithm X, invented by Donald Knuth, and the 
 implementation technique I used, called Dancing Links, also known as DLX, 
 using doubly-linked circular lists to represent the matrix of the problem.
+
 
 ## The Algorithm:
 This algorithm is proven to be one of the best sudoku solver techniques, esspacially on bigger 
@@ -44,6 +45,11 @@ This node is just like simple node but have few extra fields:
 In the next and the final step, the algorithm will solve the sudoku in the way of the exact cover 
 problem, which means, the algorithm will remove and restore, until it finds the right combination-
 the solution of the sudoku. 
+
+**See also:** 
+1. https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X
+2. https://www.geeksforgeeks.org/implementation-of-exact-cover-problem-and-algorithm-x-using-dlx/
+3. https://www.cs.mcgill.ca/~aassaf9/python/algorithm_x.html
 
 
 ## How To Use The Program
